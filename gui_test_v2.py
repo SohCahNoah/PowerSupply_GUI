@@ -3,6 +3,7 @@ from tkinter import scrolledtext
 from serial import Serial
 import time
 import threading
+import os
 
 port = 'COM3'   #Adjust as needed according to the serial port connected to the Arduino
 
@@ -109,7 +110,8 @@ def background_task():
 root = Tk()
 root.geometry("960x540")                    #Sets window size
 root.resizable(width=False, height=False)   #Restricts scaling of window
-root.iconbitmap('icon.ico')
+if os.path.exists("icon.ico"):
+    root.iconbitmap('icon.ico')
 
 #Frame object for all temperature display data
 temps_frame = Frame(root, highlightbackground="black", highlightthickness=1)
