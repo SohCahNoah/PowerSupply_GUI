@@ -1,11 +1,10 @@
 from tkinter import *
-from tkinter import scrolledtext
+from tkinter import messagebox
 from serial import Serial
+from serial.tools.list_ports import comports
 import time
 import threading
 import os
-
-port = 'COM3'   #Adjust as needed according to the serial port connected to the Arduino
 
 current_temp = '--'
 current_temp_f = '--'
@@ -15,6 +14,19 @@ temp_style = ('TkDefaultFont', 10)
 label_style = ('TkDefaultFont', 10)
 
 temp_buffer = None
+
+def detect_arduino_port():
+    ports_list = comports()
+    for port, desc, hwid in sorted(ports_list):
+        if "Arduino" in desc:
+            return port
+    return None
+
+port = detect_arduino_port()
+if port is None:
+    print("Arduino not found...\n")
+    messagebox.showerror("Error: Device not found", "Arduino was not found. Please connect device and run the application again.")
+    exit()
 
 #Open up the serial communication port
 ser = Serial(port=port, baudrate=9600, timeout=0)
