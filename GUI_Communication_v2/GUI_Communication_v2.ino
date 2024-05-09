@@ -1,7 +1,26 @@
-#include <Wire.h>
+/*
+Program Title:        LM75A Temperature Sensor w/ GUI
+Program Description:  This code is meant to be used with a custom python file that creates a tkinter window which
+                      displays the data sent from this module to the user. The GUI program uses the serial bus to
+                      communicate back and forth with this program, and the Arduino uses I2C communication to get
+                      data from and configure the LM75A sensor. This code also communicates with an LCD in order to
+                      display system information. Any bugs found should be sent to the author below.
+Author:               Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
+Date:                 05/09/2024
+Version:              Version 2.1
+*/
 
+#include <Wire.h>
+#include <LiquidCrystal.h>
+
+//-----LCD Display Constants-----//
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+//-----LM75A Constants-----//
 byte temp_c;  //Value of ambient temperature in Celcius
 byte temp_f;  //Value of ambient temperature in Fahrenheit 
+byte temp_OS; //Value of the T_OS value
 // int tempSensor_addr = 0x4c; //Alternative IC address; used for testing purposes
 int tempSensor_addr = 0x48; //I2C Address for IC
 int t_os_pointer = 0x03;  //Pointer Address for T_OS register
@@ -12,6 +31,7 @@ int ledPin = 13;  //Used for debugging purposes
 void setup() {
   Serial.begin(9600); //Initialize serial communication at 9600 baud
   Wire.begin(); //Initialize I2C communication with device
+  setupLCD(); //Initialize LCD display
 }
 
 void loop() {
@@ -44,6 +64,7 @@ void GET_TEMP() {
   if (bytesReceived == 2) {
     int data = Wire.read();
     Serial.println(data);
+    temp_c = data;
   } else {
     Serial.println("Error: ByteMismatch");
   }
@@ -93,6 +114,7 @@ bool change_OS_temp(int custom_T_os) {
   change_to_temp_reg(); //Switch back to temperature register
 
   if (exitTicket == 0) {
+    temp_OS = custom_T_os;
     return 'True';
   } else if (exitTicket > 0) {
     return 'False';
@@ -105,4 +127,23 @@ void change_to_temp_reg() {
   Wire.beginTransmission(tempSensor_addr);
   Wire.write(temp_pointer);
   Wire.endTransmission();
+}
+
+void setupLCD() {
+  //Setup the number of columns and rows on the LCD and initialize with blank values
+  lcd.begin(16, 2);
+  lcd.setCursor(0,0);
+  lcd.print("Amb Temp: ---C");
+  lcd.setCursor(1,0);
+  lcd.print("Temp_OS: ---C");
+}
+
+void lcd_setAmbTemp() {
+  lcd.setCursor(0, 10);
+  lcd.print(temp_c);
+}
+
+void lcd_setOSTemp() {
+  lcd.setCursor(1, 9);
+  lcd.print(temp_OS);
 }
