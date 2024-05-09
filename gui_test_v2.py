@@ -10,7 +10,7 @@ Description:    This code uses tkinter to create a windows GUI. Background proce
                 below). Any bugs should be report to the author below.
 Author:         Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
 Date:           05/09/24
-Version:        Version 2.1
+Version:        Version 2.2
 """
 
 from tkinter import *
