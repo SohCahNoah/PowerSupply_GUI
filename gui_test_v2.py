@@ -13,7 +13,6 @@ Date:           05/09/24
 Version:        Version 2.1
 """
 
-
 from tkinter import *
 from tkinter import messagebox
 from serial import Serial
@@ -70,7 +69,7 @@ def update_warning_temp_readout(new_temp):
 
 #Communicate with Arduino Firmware code to update the OS temperature value
 def update_tempOS(new_temp):
-    global ser
+    global ser, warning_temp
     ACK_Condition = False
     start_time = time.time()
     timeout = 1
@@ -89,6 +88,7 @@ def update_tempOS(new_temp):
                 
                 if (line == "ACK"):
                     update_warning_temp_readout(new_temp)
+                    warning_temp = int(new_temp)
                     break
                 else:
                     line = ser.readline().strip().decode('utf-8')
@@ -99,11 +99,11 @@ def update_tempOS(new_temp):
 
 #Configures the ambient temp readout to update with new_temp
 def update_temp_readout(new_temp):
-    global current_temp, current_temp_f, temp_status
+    global current_temp, current_temp_f, temp_status, warning_temp
     current_temp = new_temp
     current_temp_f = round((current_temp*1.8) + 32)
     
-    if(current_temp > warning_temp):
+    if(current_temp >= warning_temp):
         temp_status = "RED"
         temp_style = ('TkDefaultFont', 10, 'bold')
         
