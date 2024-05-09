@@ -1,3 +1,19 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Program Title:  Temperature Sensor GUI
+Description:    This code uses tkinter to create a windows GUI. Background processes will
+                communicate with an Arduino over a serial bus (USB), sending predefined commands.
+                This is custom code and is meant to work with custom Arduino firmware to receive
+                commands. The arduino in turn communicates via I2C to an LM75A temperture sensor
+                module, sending data back to this GUI if necessary (such as in the GET_TEMP function
+                below). Any bugs should be report to the author below.
+Author:         Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
+Date:           05/09/24
+Version:        Version 2.1
+"""
+
+
 from tkinter import *
 from tkinter import messagebox
 from serial import Serial
@@ -15,6 +31,7 @@ label_style = ('TkDefaultFont', 10)
 
 temp_buffer = None
 
+#Dynamic detection of Arduino connected to system
 def detect_arduino_port():
     ports_list = comports()
     for port, desc, hwid in sorted(ports_list):
@@ -22,6 +39,7 @@ def detect_arduino_port():
             return port
     return None
 
+#Find the port that the arduino is on, if not found create an error window and exit the program
 port = detect_arduino_port()
 if port is None:
     print("Arduino not found...\n")
@@ -43,6 +61,7 @@ def read_temp():
         else:
             temp_buffer = None
 
+#Configures the warning temp readout to update with new_temp
 def update_warning_temp_readout(new_temp):
     if (new_temp == ""):
         warning_temp_readout.config(text="0 °C")
@@ -78,6 +97,7 @@ def update_tempOS(new_temp):
         except TimeoutError as e:
             print(e)
 
+#Configures the ambient temp readout to update with new_temp
 def update_temp_readout(new_temp):
     global current_temp, current_temp_f, temp_status
     current_temp = new_temp
@@ -99,9 +119,11 @@ def update_temp_readout(new_temp):
     
     root.update()
 
+#Clears the user entry field when called
 def clear_tempOS():
     temp_os_userEntry.delete(0, END)
 
+#Sends the user entry to be configured as the new temp_os in the Arduino code
 def confirm_tempOS():
     new_tempOS = temp_os_userEntry.get()
     temp_os_userEntry.delete(0, END)
@@ -109,6 +131,7 @@ def confirm_tempOS():
         return
     update_tempOS(new_tempOS)
 
+#Runs on a background thread to grab the current ambient temp, allowing for other calls (such as SET_TEMP) to be made at the same time
 def background_task():
     global temp_buffer
     while True:
@@ -117,6 +140,10 @@ def background_task():
             update_temp_readout(temp_buffer)
             temp_buffer = None
         time.sleep(0.25)
+
+#-----------------------------------------------
+#   Windows Application Functions and Objects
+#-----------------------------------------------
 
 #--- Initialize Window and Frame Objects
 root = Tk()
@@ -133,9 +160,11 @@ temps_frame.grid(row=0, column=0, sticky=W+E)
 controls_frame = Frame(root)
 controls_frame.grid(row=1, column=0, sticky=W+E)
 
+#Frame object for temp_os data
 temp_os_entry_frame = Frame(root)
 temp_os_entry_frame.grid(row=2, column=0, sticky=W+E)
 
+#Frame object for temp_os buttons
 temp_os_button_frame = Frame(root)
 temp_os_button_frame.grid(row=3, column=0, sticky=W+E)
 
@@ -148,6 +177,7 @@ def validate_int(text):
         return False
     
 #Registers function with underlying tcl logic
+#NOTE: I don't understand why this needs to be here, but the code doesn't work with out it...
 validation = root.register(validate_int)
 
 #---Temperature Data Widgets ---
@@ -176,7 +206,7 @@ temp_os_clearBtn.grid(row=2, column=0, padx=(90,0), pady=10)
 temp_os_confirmBtn = Button(temp_os_button_frame, text="Confirm", relief=RAISED, command=confirm_tempOS)
 temp_os_confirmBtn.grid(row=2, column=1, padx=10, pady=10)
 
-#--- Background Processes
+#--- Background Threading Processes
 serial_thread = threading.Thread(target=background_task)
 serial_thread.daemon = True
 serial_thread.start()
@@ -191,8 +221,4 @@ root.mainloop()     #Runs main loop
 # - Connected this code to the serial output code
 # - Implemented listening logic to update temperature value as data is received
 # - Implemented control function where the user can update the warning temperature, as well as clear and confirm buttons
-
-# What I still need to do:
-# - Implement control logic for power control
-# - Implement communication with device to updated T_OS within the update_tempOS() function
-# - Integrate LCD update logic
+# - Implemented communication with device to updated T_OS within the update_tempOS() function
