@@ -5,7 +5,8 @@ Program Description:  This code is meant to be used with a custom python file th
                       communicate back and forth with this program, and the Arduino uses I2C communication to get
                       data from and configure the LM75A sensor. This code also communicates with an LCD in order to
                       display system information. Any bugs found should be sent to the author below.
-Author:               Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
+Author(s):            Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
+                      Shuyi Zheng, zhengshu@oregonstate.edu
 Date:                 05/09/2024
 Version:              Version 2.1
 */
