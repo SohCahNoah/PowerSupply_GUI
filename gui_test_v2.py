@@ -224,3 +224,9 @@ root.mainloop()     #Runs main loop
 # - Implemented listening logic to update temperature value as data is received
 # - Implemented control function where the user can update the warning temperature, as well as clear and confirm buttons
 # - Implemented communication with device to updated T_OS within the update_tempOS() function
+
+#TODO:
+# - If user enters a value that is greater than the max OS temp in the entry field
+#   it will be set to the max OS temp allowed, however the GUI still states the
+#   invalid temperature (ie. if user enters 900, the max OS temp will be set, but 
+#   the GUI will display 900).
