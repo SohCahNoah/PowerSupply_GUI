@@ -9,8 +9,8 @@ Description:    This code uses tkinter to create a windows GUI. Background proce
                 module, sending data back to this GUI if necessary (such as in the GET_TEMP function
                 below). Any bugs should be report to the author below.
 Author:         Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
-Date:           05/09/24
-Version:        Version 2.2
+Date:           05/24/24
+Version:        Version 2.3
 """
 
 from tkinter import *
@@ -224,9 +224,4 @@ root.mainloop()     #Runs main loop
 # - Implemented listening logic to update temperature value as data is received
 # - Implemented control function where the user can update the warning temperature, as well as clear and confirm buttons
 # - Implemented communication with device to updated T_OS within the update_tempOS() function
-
-#TODO:
-# - If user enters a value that is greater than the max OS temp in the entry field
-#   it will be set to the max OS temp allowed, however the GUI still states the
-#   invalid temperature (ie. if user enters 900, the max OS temp will be set, but 
-#   the GUI will display 900).
+# - Text entry is limited to bounds of Temp_OS on the ARduino firmware side
