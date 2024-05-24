@@ -7,8 +7,8 @@ Program Description:  This code is meant to be used with a custom python file th
                       display system information. Any bugs found should be sent to the author below.
 Author(s):            Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
                       Shuyi Zheng, zhengshu@oregonstate.edu
-Date:                 05/09/2024
-Version:              Version 2.1
+Date:                 05/24/2024
+Version:              Version 2.2
 */
 
 #include <Wire.h>
