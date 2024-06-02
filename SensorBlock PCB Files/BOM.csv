@@ -1,0 +1,7 @@
+"Reference","Value","Datasheet","Footprint","Qty","DNP","Supplier"
+"H1,H2,H3,H4","MountingHole","~","MountingHole:MountingHole_2.2mm_M2","4","","(N/A)"
+"R1,R2,R3","10k","~","Resistor_SMD:R_0805_2012Metric","3","","https://eecs.engineering.oregonstate.edu/education/tekbotSuite/tekbot/pages/publicInventoryPart.php?stocknumber=NLX6ZO"
+"C1","100nF","~","Capacitor_SMD:C_0201_0603Metric","1","","https://eecs.engineering.oregonstate.edu/education/tekbotSuite/tekbot/pages/publicInventoryPart.php?stocknumber=P1501519802"
+"U1","LM75B","http://www.ti.com/lit/ds/symlink/lm75b.pdf","Package_SO:VSSOP-8_3.0x3.0mm_P0.65mm","1","","https://eecs.engineering.oregonstate.edu/education/tekbotSuite/tekbot/pages/publicInventoryPart.php?stocknumber=P1565373930"
+"J1","Source Input (Screw)","~","TerminalBlock_TE-Connectivity:TerminalBlock_TE_282834-2_1x02_P2.54mm_Horizontal","1","","https://www.digikey.com/en/products/detail/te-connectivity-amp-connectors/282834-2/1150135"
+"J2","Microcontroller Terminal (Screw)","~","TerminalBlock_TE-Connectivity:TerminalBlock_TE_282834-3_1x03_P2.54mm_Horizontal","1","","https://www.digikey.com/en/products/detail/te-connectivity-amp-connectors/282834-3/1153264?s=N4IgjCBcpgDA7AViqAxlAZgQwDYGcBTAGhAHsoBtcANgE4AmW5AXRIAcAXKEAZQ4CcAlgDsA5iAC%2BEkvUoh6ADkUBmACwhmEoA"

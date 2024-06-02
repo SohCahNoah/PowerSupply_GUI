@@ -1797,7 +1797,7 @@
 		)
 		(uuid "d0b2c00c-e6a6-4d2b-b951-f65d916e1e8a")
 	)
-	(text "This design uses the LM75B temperature sensor.\nIt communicates through the I2C protocol.\n\nThe data sheet can be found here:\nhttps://www.ti.com/lit/ds/symlink/lm75b.pdf?ts=1713925293992"
+	(text "This design uses the LM75B temperature sensor.\nIt communicates through the I2C protocol.\nAddress of I2C component is set to 000\n\nThe data sheet can be found here:\nhttps://www.ti.com/lit/ds/symlink/lm75b.pdf?ts=1713925293992"
 		(exclude_from_sim no)
 		(at 80.01 82.296 0)
 		(effects
