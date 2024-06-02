@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Roberts"
+  given-names: "Noah"
+  orcid: "https://orcid.org/0009-0008-6206-0523"
+title: "PowerSupply_GUI"
+version: 2.3
+date-released: 2024-06-02
+url: "https://github.com/SohCahNoah/PowerSupply_GUI"
