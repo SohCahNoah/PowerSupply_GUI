@@ -7,8 +7,8 @@ Program Description:  This code is meant to be used with a custom python file th
                       display system information. Any bugs found should be sent to the author below.
 Author(s):            Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
                       Shuyi Zheng, zhengshu@oregonstate.edu
-Date:                 05/09/2024
-Version:              Version 2.1
+Date:                 05/24/2024
+Version:              Version 2.2
 */
 
 #include <Wire.h>
@@ -22,8 +22,8 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 byte temp_c;  //Value of ambient temperature in Celcius
 byte temp_f;  //Value of ambient temperature in Fahrenheit 
 byte temp_OS; //Value of the T_OS value
-// int tempSensor_addr = 0x4c; //Alternative IC address; used for testing purposes
-int tempSensor_addr = 0x48; //I2C Address for IC
+int tempSensor_addr = 0x4c; //Alternative IC address; used for testing purposes
+//int tempSensor_addr = 0x48; //I2C Address for IC
 int t_os_pointer = 0x03;  //Pointer Address for T_OS register
 int temp_pointer = 0x00;  //Pointer Address for Temp register
 
@@ -66,6 +66,7 @@ void GET_TEMP() {
     int data = Wire.read();
     Serial.println(data);
     temp_c = data;
+    lcd_setAmbTemp(temp_c);
   } else {
     Serial.println("Error: ByteMismatch");
   }
@@ -113,6 +114,7 @@ bool change_OS_temp(int custom_T_os) {
   Wire.write(0x00);
   int exitTicket = Wire.endTransmission();
   change_to_temp_reg(); //Switch back to temperature register
+  lcd_setOSTemp(custom_T_os);
 
   if (exitTicket == 0) {
     temp_OS = custom_T_os;
@@ -135,16 +137,22 @@ void setupLCD() {
   lcd.begin(16, 2);
   lcd.setCursor(0,0);
   lcd.print("Amb Temp: ---C");
-  lcd.setCursor(1,0);
+  lcd.setCursor(0,1);
   lcd.print("Temp_OS: ---C");
 }
 
-void lcd_setAmbTemp() {
-  lcd.setCursor(0, 10);
+void lcd_setAmbTemp(byte temp_c) {
+  if(temp_c > 99 || temp_c < 10) {
+    lcd.setCursor(10, 0);
+    lcd.print("---");
+  }
+  lcd.setCursor(10, 0);
   lcd.print(temp_c);
 }
 
-void lcd_setOSTemp() {
-  lcd.setCursor(1, 9);
+void lcd_setOSTemp(byte temp_OS) {
+  lcd.setCursor(9, 1);
+  lcd.print("---");
+  lcd.setCursor(9, 1);
   lcd.print(temp_OS);
 }

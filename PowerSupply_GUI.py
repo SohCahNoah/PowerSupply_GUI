@@ -9,8 +9,8 @@ Description:    This code uses tkinter to create a windows GUI. Background proce
                 module, sending data back to this GUI if necessary (such as in the GET_TEMP function
                 below). Any bugs should be report to the author below.
 Author:         Noah Roberts, SID: 932-989-402, robertno@oregonstate.edu
-Date:           05/09/24
-Version:        Version 2.2
+Date:           05/24/24
+Version:        Version 2.3
 """
 
 from tkinter import *
@@ -206,6 +206,8 @@ temp_os_clearBtn.grid(row=2, column=0, padx=(90,0), pady=10)
 temp_os_confirmBtn = Button(temp_os_button_frame, text="Confirm", relief=RAISED, command=confirm_tempOS)
 temp_os_confirmBtn.grid(row=2, column=1, padx=10, pady=10)
 
+temp_os_userEntry.bind('<Return>', lambda event: confirm_tempOS()) #Runs the confirm_tempOS() function if the user hit's Enter while in the text entry field
+
 #--- Background Threading Processes
 serial_thread = threading.Thread(target=background_task)
 serial_thread.daemon = True
@@ -222,3 +224,4 @@ root.mainloop()     #Runs main loop
 # - Implemented listening logic to update temperature value as data is received
 # - Implemented control function where the user can update the warning temperature, as well as clear and confirm buttons
 # - Implemented communication with device to updated T_OS within the update_tempOS() function
+# - Text entry is limited to bounds of Temp_OS on the ARduino firmware side
